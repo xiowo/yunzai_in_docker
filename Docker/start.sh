@@ -16,9 +16,9 @@ print_message() {
 # 脚本开始
 print_message "$YELLOW" "=== Yunzai 初始化脚本开始 ==="
 
-# 步骤 1: 启动 Redis 服务器
+# 步骤 1: 启动 Redis 服务器并指定配置文件
 print_message "$GREEN" "步骤 1: 启动 Redis 服务器"
-redis-server --daemonize yes &> /dev/null
+redis-server /etc/redis/redis.conf --daemonize yes &> /dev/null
 print_message "$GREEN" "Redis 服务器已启动"
 
 # 步骤 2: 检查并初始化 Yunzai
@@ -43,7 +43,7 @@ if [ -z "$(ls -A /Yunzai)" ]; then
     print_message "$YELLOW" "安装 Node.js 依赖..."
     npm --registry=https://registry.npmmirror.com install pnpm -g
     pnpm config set registry https://registry.npmmirror.com
-    pnpm install -P
+    pnpm install -P --no-interactive
     print_message "$GREEN" "Node.js 依赖安装完成"
 
     print_message "$YELLOW" "安装全局 Freyr 工具..."
@@ -77,7 +77,7 @@ else
 
     # 更新依赖
     print_message "$YELLOW" "更新 Node.js 依赖..."
-    pnpm install -P
+    pnpm install -P --no-interactive
     print_message "$GREEN" "Node.js 依赖更新完成"
 
 fi
